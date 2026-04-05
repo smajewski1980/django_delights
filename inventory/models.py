@@ -36,7 +36,7 @@ class Customer(models.Model):
         return self.customer_name
 
 
-class Orders(models.Model):
+class Order(models.Model):
     order_timestamp = models.DateTimeField(auto_now=True)
     customer_name = models.ForeignKey(Customer, on_delete=models.CASCADE)
     order_total = models.FloatField(validators=[MinValueValidator(0)])

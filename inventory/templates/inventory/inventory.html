@@ -1,0 +1,26 @@
+{% block content %}
+
+<h1>Inventory</h1>
+
+<ul>
+  {% for ingredient in object_list %}
+  <li>
+    {{ ingredient.ingredient_name }}
+    <ul>
+      <li>
+        <span>on hand: </span>
+        <span>{{ ingredient.ingredient_inv_qty }}</span>
+        <span>{{ ingredient.ingredient_unit }}</span>
+      </li>
+      <li>
+        <span>cost: </span>
+        <span>{{ ingredient.ingredient_unit_price}}</span>/<span
+          >{{ingredient.ingredient_unit }}</span
+        >
+      </li>
+    </ul>
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
