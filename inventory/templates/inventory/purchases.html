@@ -1,7 +1,7 @@
 {% extends 'inventory/base.html' %} {% block content %}
 <h2>Purchases</h2>
 <ul>
-  {% for order in object_list %}
+  {% for order in purchases %}
   <li>
     order id: {{ order.id}}
     <ul>

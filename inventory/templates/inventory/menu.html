@@ -1,0 +1,18 @@
+{% extends 'inventory/base.html' %} {% block content %}
+
+<h2>Menu</h2>
+
+<ul>
+  {% for menu_item in menu_items %}
+  <li>{{ menu_item.menu_item_name }} - ${{ menu_item.menu_item_price}}</li>
+  <ul>
+    <!-- i think when we add another menu item this will need to 
+     be filtered to only show the ingredients for THIS item -->
+    needed ingredients: {% for ingr in recipe_reqs %}
+    <li>{{ ingr.ingredient_name }} - {{ ingr.recipe_qty }}</li>
+    {% endfor %}
+  </ul>
+  {% endfor %}
+</ul>
+
+{% endblock %}
