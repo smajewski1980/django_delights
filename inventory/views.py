@@ -8,3 +8,7 @@ from inventory.models import Ingredient
 class CurrentInventory(ListView):
     model = Ingredient
     template_name = 'inventory/inventory.html'
+
+
+def index(request):
+    return render(request, 'inventory/index.html')
