@@ -21,5 +21,6 @@ from inventory import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='home'),
-    path('inventory/', views.CurrentInventory.as_view(), name='inventory')
+    path('inventory/', views.CurrentInventory.as_view(), name='inventory'),
+    path('purchases/', views.Purchases.as_view(), name='purchases')
 ]

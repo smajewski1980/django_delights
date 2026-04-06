@@ -1,0 +1,25 @@
+{% extends 'inventory/base.html' %} {% block content %}
+<h2>Purchases</h2>
+<ul>
+  {% for order in object_list %}
+  <li>
+    order id: {{ order.id}}
+    <ul>
+      <li>
+        <span>Order date: {{ order.order_timestamp}}</span>
+      </li>
+      <li>
+        <span>Customer: {{ order.customer_name}}</span>
+      </li>
+      <li>
+        <span>Menu Item: {{ order.menu_item_name}}</span>
+      </li>
+      <li>
+        <span>Total: ${{ order.order_total}}</span>
+      </li>
+    </ul>
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
