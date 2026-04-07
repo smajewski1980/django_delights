@@ -20,6 +20,14 @@ class Purchases(ListView):
     context_object_name = 'purchases'
     template_name = 'inventory/purchases.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order_totals = self.get_queryset()
+        sum_totals = sum([item.order_total for item in order_totals])
+        context['total_orders_sum'] = sum_totals
+
+        return context
+
 
 class Menu(ListView):
     model = MenuItem
