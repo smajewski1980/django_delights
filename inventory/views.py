@@ -28,6 +28,12 @@ class Menu(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # how to access foreign key data
-        context["recipe_reqs"] = RecipeRequirement.objects.all()
+        menu_items = self.get_queryset()
+        recipe_requirements = {}
+
+        for item in menu_items:
+            recipe_requirements[item.menu_item_name] = RecipeRequirement.objects.filter(
+                menu_item_name=item)
+
+        context["recipe_reqs"] = recipe_requirements
         return context
