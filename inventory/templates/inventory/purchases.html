@@ -1,6 +1,11 @@
 {% extends 'inventory/base.html' %} {% block content %}
 <h2>Purchases</h2>
 <p>Total Revenue: <strong>${{ total_orders_sum|floatformat:2 }}</strong></p>
+<p>
+  Total cost of ingredients used:
+  <strong>${{ ingr_used_cost|floatformat:2 }}</strong>
+</p>
+<p>Total Profit: <strong>${{ profit|floatformat:2 }}</strong></p>
 <ul>
   {% for order in purchases %}
   <li>

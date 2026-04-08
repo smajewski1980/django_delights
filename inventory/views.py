@@ -26,6 +26,27 @@ class Purchases(ListView):
         sum_totals = sum([item.order_total for item in order_totals])
         context['total_orders_sum'] = sum_totals
 
+        orders = self.get_queryset()
+        ordered_items = [item.menu_item_name for item in orders]
+        recipe_requirements = RecipeRequirement.objects.all()
+        list_of_ingr_for_calc = []
+        cost = 0
+
+        for item in ordered_items:
+            for ingr in recipe_requirements:
+                if ingr.menu_item_name == item:
+                    list_of_ingr_for_calc.append(
+                        (ingr.ingredient_name, ingr.recipe_qty))
+
+        for ingr in list_of_ingr_for_calc:
+            ingr_name = ingr[0]
+            ingr_qty_used = ingr[1]
+            currIngr = Ingredient.objects.filter(ingredient_name=ingr_name)[0]
+            cost += currIngr.ingredient_unit_price * ingr_qty_used
+
+        context['ingr_used_cost'] = cost
+        context['profit'] = sum_totals - cost
+
         return context
 
 

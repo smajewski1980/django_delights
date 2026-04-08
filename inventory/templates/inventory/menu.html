@@ -4,7 +4,10 @@
 
 <ul>
   {% for menu_item in menu_items %}
-  <li>{{ menu_item.menu_item_name }} - ${{ menu_item.menu_item_price}}</li>
+  <li>
+    {{ menu_item.menu_item_name }} -
+    ${{menu_item.menu_item_price|floatformat:2}}
+  </li>
   <ul>
     needed ingredients: {% for k, v in recipe_reqs.items %} {% for item in v %}
     {% if item.menu_item_name == menu_item %}
