@@ -2,12 +2,15 @@
 
 <h2>Menu</h2>
 
-<ul>
-  {% for menu_item in menu_items %}
-  <li>
+<p>click an item to see the ingredients required</p>
+
+{% for menu_item in menu_items %}
+<details>
+  <summary>
     {{ menu_item.menu_item_name }} -
     ${{menu_item.menu_item_price|floatformat:2}}
-  </li>
+  </summary>
+
   <ul>
     needed ingredients: {% for k, v in recipe_reqs.items %} {% for item in v %}
     {% if item.menu_item_name == menu_item %}
@@ -15,7 +18,5 @@
     <li>{{ item.ingredient_name }} - {{ item.recipe_qty }}</li>
     {% endif %} {% endfor %} {% endfor %}
   </ul>
-  {% endfor %}
-</ul>
-
-{% endblock %}
+</details>
+{% endfor %} {% endblock %}

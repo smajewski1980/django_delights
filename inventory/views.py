@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
+from django.views.generic.edit import DeleteView
 from inventory.models import Ingredient, Order, MenuItem, RecipeRequirement
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -66,3 +68,10 @@ class Menu(ListView):
 
         context["recipe_reqs"] = recipe_requirements
         return context
+
+
+# dont know yet if this is correct
+class delete_ingredient(DeleteView):
+    model = Ingredient
+    template_name = 'inventory/delete.html'
+    success_url = 'inventory/'

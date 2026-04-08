@@ -1,26 +1,34 @@
 {% extends 'inventory/base.html' %} {% block content %}
 
 <h2>Inventory</h2>
-
-<ul>
-  {% for ingredient in currInventory %}
-  <li>
-    {{ ingredient.ingredient_name }}
-    <ul>
-      <li>
-        <span>on hand: </span>
+<!-- make a table -->
+<table>
+  <caption>
+    Ingredients
+  </caption>
+  <thead>
+    <tr>
+      <th>ingredient name</th>
+      <th>qty on hand</th>
+      <th>unit price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ingredient in currInventory %}
+    <tr>
+      <td>{{ ingredient.ingredient_name }}</td>
+      <td>
         <span>{{ ingredient.ingredient_inv_qty }}</span>
         <span>{{ ingredient.ingredient_unit }}</span>
-      </li>
-      <li>
-        <span>cost: </span>
-        <span>{{ ingredient.ingredient_unit_price}}</span>/<span
+      </td>
+      <td>
+        <span>{{ ingredient.ingredient_unit_price|floatformat:2}}</span>/<span
           >{{ingredient.ingredient_unit }}</span
         >
-      </li>
-    </ul>
-  </li>
-  {% endfor %}
-</ul>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 {% endblock %}

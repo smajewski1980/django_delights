@@ -6,26 +6,31 @@
   <strong>${{ ingr_used_cost|floatformat:2 }}</strong>
 </p>
 <p>Total Profit: <strong>${{ profit|floatformat:2 }}</strong></p>
-<ul>
-  {% for order in purchases %}
-  <li>
-    order id: {{ order.id}}
-    <ul>
-      <li>
-        <span>Order date: {{ order.order_timestamp}}</span>
-      </li>
-      <li>
-        <span>Customer: {{ order.customer_name}}</span>
-      </li>
-      <li>
-        <span>Menu Item: {{ order.menu_item_name}}</span>
-      </li>
-      <li>
-        <span>Total: ${{ order.order_total|floatformat:2 }}</span>
-      </li>
-    </ul>
-  </li>
-  {% endfor %}
-</ul>
+
+<table>
+  <caption>
+    orders
+  </caption>
+  <thead>
+    <tr>
+      <th>order id</th>
+      <th>order date</th>
+      <th>customer</th>
+      <th>item ordered</th>
+      <th>order total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in purchases %}
+    <tr>
+      <td>{{ order.id}}</td>
+      <td>{{ order.order_timestamp}}</td>
+      <td>{{ order.customer_name}}</td>
+      <td>{{ order.menu_item_name}}</td>
+      <td>${{ order.order_total|floatformat:2 }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 {% endblock %}
