@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView, FormView
 from inventory.models import Ingredient, Order, MenuItem, RecipeRequirement
 from django.http import HttpResponse
+from .forms import MenuItemForm
 
 # Create your views here.
 
@@ -71,7 +72,17 @@ class Menu(ListView):
 
 
 # dont know yet if this is correct
-class delete_ingredient(DeleteView):
+class DeleteIngredient(DeleteView):
     model = Ingredient
     template_name = 'inventory/delete.html'
     success_url = 'inventory/'
+
+
+class NewMenuItem(FormView):
+    template_name = 'inventory/new_menu_item.html'
+    form_class = MenuItemForm
+    success_url = '/menu/'
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
