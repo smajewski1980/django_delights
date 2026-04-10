@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
-from django.views.generic.edit import DeleteView, FormView
+from django.views.generic.edit import DeleteView, FormView, UpdateView
 from inventory.models import Ingredient, Order, MenuItem, RecipeRequirement
 from .forms import MenuItemForm, AddIngredientForm, AddRecipeReq, AddNewOrder
 
@@ -123,3 +123,10 @@ class NewOrder(FormView):
             'id').values_list('menu_item_price', flat=True))
 
         return context
+
+
+class UpdateInventory(UpdateView):
+    model = Ingredient
+    fields = '__all__'
+    template_name = 'inventory/update_inventory.html'
+    success_url = '/inventory/'
