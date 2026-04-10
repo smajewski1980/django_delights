@@ -19,3 +19,9 @@ class AddRecipeReq(forms.ModelForm):
     class Meta:
         model = RecipeRequirement
         fields = '__all__'
+
+
+class AddNewOrder(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = '__all__'

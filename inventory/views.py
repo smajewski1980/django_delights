@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.edit import DeleteView, FormView
 from inventory.models import Ingredient, Order, MenuItem, RecipeRequirement
-from .forms import MenuItemForm, AddIngredientForm, AddRecipeReq
+from .forms import MenuItemForm, AddIngredientForm, AddRecipeReq, AddNewOrder
 
 # Create your views here.
 
@@ -105,3 +105,21 @@ class NewRecipeReq(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+class NewOrder(FormView):
+    template_name = 'inventory/new_order.html'
+    form_class = AddNewOrder
+    success_url = '/purchases/'
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["item_prices"] = list(MenuItem.objects.order_by(
+            'id').values_list('menu_item_price', flat=True))
+
+        return context

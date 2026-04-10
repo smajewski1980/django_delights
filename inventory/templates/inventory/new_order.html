@@ -1,0 +1,25 @@
+{% extends 'inventory/base.html' %} {% block content %}
+
+<h2>New Order</h2>
+
+<form
+  action=""
+  method="POST"
+>
+  {% csrf_token %} {{ form.as_p }}
+
+  <button type="submit">add new order</button>
+</form>
+
+<script>
+  const prices = JSON.parse("{{ item_prices|safe }}");
+  const menuItemSelect = document.getElementById("id_menu_item_name");
+  const itemPriceField = document.getElementById("id_order_total");
+
+  menuItemSelect.addEventListener("input", (e) => {
+    selected = e.target.value;
+    itemPriceField.value = prices[selected - 1];
+  });
+</script>
+
+{% endblock %}
