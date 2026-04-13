@@ -113,8 +113,33 @@ class NewOrder(FormView):
     success_url = '/purchases/'
 
     def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
+        '''check to see if the desired menu item has enough ingredients in inventory'''
+        menu_item_name = form.cleaned_data['menu_item_name']
+        # the ingredients for this menu item
+        rec_reqs = []
+        # this holds the items that have insufficient inventory if they exist
+        not_enough = []
+        # get the ingredients required
+        for row in RecipeRequirement.objects.all():
+            if row.menu_item_name == menu_item_name:
+                rec_reqs.append((row.ingredient_name, row.recipe_qty))
+        # check if ingredients have enough in inventory
+        for ingr in rec_reqs:
+            ingredients = Ingredient.objects.all()
+            curr_inv_qty = [
+                item.ingredient_inv_qty for item in ingredients if str(item.ingredient_name) == str(ingr[0])]
+            # if not add to not enoughj list
+            if int(ingr[1]) > int(curr_inv_qty[0]):
+                not_enough.append(ingr[0])
+        # if not enough has any items, go through and return errors with the invalid form
+        if not len(not_enough):
+            form.save()
+            return super().form_valid(form)
+        else:
+            for item in not_enough:
+                form.add_error(
+                    'menu_item_name', f'not enough {item} in inventory')
+            return self.form_invalid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
