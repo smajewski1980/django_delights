@@ -150,11 +150,24 @@ class NewOrder(LoginRequiredMixin, FormView):
             curr_inv_qty = [
                 item.ingredient_inv_qty for item in ingredients if str(item.ingredient_name) == str(ingr[0])]
             # if not add to not enoughj list
-            if int(ingr[1]) > int(curr_inv_qty[0]):
+            if curr_inv_qty and int(ingr[1]) > int(curr_inv_qty[0]):
                 not_enough.append(ingr[0])
         # if not enough has any items, go through and return errors with the invalid form
         if not len(not_enough):
             form.save()
+            for item in rec_reqs:
+                # self.update_the_inv(item)
+                name = item[0]
+                qty = item[1]
+                ingredient = Ingredient.objects.get(ingredient_name=name)
+                if ingredient.ingredient_inv_qty >= qty:
+                    ingredient.ingredient_inv_qty -= qty
+                    ingredient.save()
+                else:
+                    print(f'not enough {item} in inventory')
+                    form.add_error(
+                        'menu_item_name', f'not enough {item[0]} in inventory')
+                    return self.form_invalid(form)
             return super().form_valid(form)
         else:
             for item in not_enough:

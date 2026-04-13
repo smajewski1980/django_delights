@@ -1,5 +1,6 @@
 <nav>
   <ul>
+    {% if user.is_authenticated %}
     <li>
       <a href="{% url 'home' %}">home</a>
     </li>
@@ -12,7 +13,6 @@
     <li>
       <a href="{% url 'menu' %}">menu</a>
     </li>
-    {% if user.is_authenticated %}
     <form
       action="{% url 'logout' %}"
       method="post"
