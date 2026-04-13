@@ -1,26 +1,40 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from inventory.models import Ingredient, Order, MenuItem, RecipeRequirement
 from .forms import MenuItemForm, AddIngredientForm, AddRecipeReq, AddNewOrder
 
 # Create your views here.
 
 
-class CurrentInventory(ListView):
+class login_view(auth_views.LoginView):
+    template_name = 'inventory/login.html'
+    next_page = '/purchases/'
+
+
+class logout_view(auth_views.LogoutView):
+    next_page = 'home'
+
+
+class CurrentInventory(LoginRequiredMixin, ListView):
     model = Ingredient
     context_object_name = 'currInventory'
     template_name = 'inventory/inventory.html'
+    login_url = '/login/'
 
 
 def index(request):
     return render(request, 'inventory/index.html')
 
 
-class Purchases(ListView):
+class Purchases(LoginRequiredMixin, ListView):
     model = Order
     context_object_name = 'purchases'
     template_name = 'inventory/purchases.html'
+    login_url = '/login/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -49,14 +63,15 @@ class Purchases(ListView):
         context['ingr_used_cost'] = cost
         context['profit'] = sum_totals - cost
         context['purchases'] = context['purchases'][::-1]
-
+        print(self.request.user)
         return context
 
 
-class Menu(ListView):
+class Menu(LoginRequiredMixin, ListView):
     model = MenuItem
     context_object_name = 'menu_items'
     template_name = 'inventory/menu.html'
+    login_url = '/login/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -72,46 +87,51 @@ class Menu(ListView):
 
 
 # dont know yet if this is correct
-class DeleteIngredient(DeleteView):
+class DeleteIngredient(LoginRequiredMixin, DeleteView):
     model = Ingredient
     template_name = 'inventory/delete.html'
     success_url = 'inventory/'
+    login_url = '/login/'
 
 
-class NewMenuItem(FormView):
+class NewMenuItem(LoginRequiredMixin, FormView):
     template_name = 'inventory/new_menu_item.html'
     form_class = MenuItemForm
     success_url = '/menu/'
+    login_url = '/login/'
 
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
 
 
-class NewIngredient(FormView):
+class NewIngredient(LoginRequiredMixin, FormView):
     template_name = 'inventory/new_ingredient.html'
     form_class = AddIngredientForm
     success_url = '/inventory/'
+    login_url = '/login/'
 
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
 
 
-class NewRecipeReq(FormView):
+class NewRecipeReq(LoginRequiredMixin, FormView):
     template_name = 'inventory/new_recipe_req.html'
     form_class = AddRecipeReq
     success_url = '/new_recipe_req/'
+    login_url = '/login/'
 
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
 
 
-class NewOrder(FormView):
+class NewOrder(LoginRequiredMixin, FormView):
     template_name = 'inventory/new_order.html'
     form_class = AddNewOrder
     success_url = '/purchases/'
+    login_url = '/login/'
 
     def form_valid(self, form):
         '''check to see if the desired menu item has enough ingredients in inventory'''
@@ -151,8 +171,9 @@ class NewOrder(FormView):
         return context
 
 
-class UpdateInventory(UpdateView):
+class UpdateInventory(LoginRequiredMixin, UpdateView):
     model = Ingredient
     fields = '__all__'
     template_name = 'inventory/update_inventory.html'
     success_url = '/inventory/'
+    login_url = '/login/'

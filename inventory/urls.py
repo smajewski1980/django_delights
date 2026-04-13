@@ -11,5 +11,7 @@ urlpatterns = [
     path('new_recipe_req/', views.NewRecipeReq.as_view(), name='new_recipe_req'),
     path('new_order/', views.NewOrder.as_view(), name='new_order'),
     path('inventory/<int:pk>/',
-         views.UpdateInventory.as_view(), name='update_inventory')
+         views.UpdateInventory.as_view(), name='update_inventory'),
+    path('login/', views.login_view.as_view(template_name='inventory/login.html'), name='login'),
+    path('logout/', views.logout_view.as_view(), name='logout')
 ]
