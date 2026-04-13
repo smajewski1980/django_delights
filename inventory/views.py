@@ -48,6 +48,7 @@ class Purchases(ListView):
 
         context['ingr_used_cost'] = cost
         context['profit'] = sum_totals - cost
+        context['purchases'] = context['purchases'][::-1]
 
         return context
 
