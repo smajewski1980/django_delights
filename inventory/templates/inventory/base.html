@@ -1,31 +1,44 @@
-<nav>
-  <ul>
-    {% if user.is_authenticated %}
-    <li>
-      <a href="{% url 'home' %}">home</a>
-    </li>
-    <li>
-      <a href="{% url 'inventory' %}">inventory</a>
-    </li>
-    <li>
-      <a href="{% url 'purchases' %}">purchases</a>
-    </li>
-    <li>
-      <a href="{% url 'menu' %}">menu</a>
-    </li>
-    <form
-      action="{% url 'logout' %}"
-      method="post"
-    >
-      {% csrf_token %}
-      <button type="submit">Logout</button>
-    </form>
-    {% else %}
-    <a href="{% url 'login' %}">Login</a>
-    {% endif %}
-  </ul>
-</nav>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>{% block title %}Django Delights{% endblock %}</title>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        {% if user.is_authenticated %}
+        <li>
+          <a href="{% url 'home' %}">home</a>
+        </li>
+        <li>
+          <a href="{% url 'inventory' %}">inventory</a>
+        </li>
+        <li>
+          <a href="{% url 'purchases' %}">purchases</a>
+        </li>
+        <li>
+          <a href="{% url 'menu' %}">menu</a>
+        </li>
+        <form
+          action="{% url 'logout' %}"
+          method="post"
+        >
+          {% csrf_token %}
+          <button type="submit">Logout</button>
+        </form>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </ul>
+    </nav>
 
-<h1>Django Delights</h1>
+    <h1>Django Delights</h1>
 
-{% block content %} {% endblock %}
+    {% block content %} {% endblock %}
+  </body>
+</html>

@@ -1,8 +1,15 @@
-{% extends 'inventory/base.html' %} {% block content %}
+<!-- prettier-ignore -->
+{% extends 'inventory/base.html' %}
+{% block title %}
+  {{ title }}
+{% endblock %}
+{% block content %}
+<!-- prettier-ignore -->
 
 <h2>Menu</h2>
 
 <a href="{% url 'new_menu_item' %}">add new menu item</a>
+<br />
 <a href="{% url 'new_recipe_req' %}">add menu item recipe requirement</a>
 
 <p>click an item to see the ingredients required</p>

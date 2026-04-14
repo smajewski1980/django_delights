@@ -24,6 +24,16 @@ class CurrentInventory(LoginRequiredMixin, ListView):
     context_object_name = 'currInventory'
     template_name = 'inventory/inventory.html'
     login_url = '/login/'
+    title = 'Inventory-Django Delights'
+
+    def get_title(self):
+        return self.title
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.get_title()
+
+        return context
 
 
 def index(request):
@@ -34,7 +44,11 @@ class Purchases(LoginRequiredMixin, ListView):
     model = Order
     context_object_name = 'purchases'
     template_name = 'inventory/purchases.html'
+    title = 'Orders-Django Delights'
     login_url = '/login/'
+
+    def get_title(self):
+        return self.title
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -63,6 +77,7 @@ class Purchases(LoginRequiredMixin, ListView):
         context['ingr_used_cost'] = cost
         context['profit'] = sum_totals - cost
         context['purchases'] = context['purchases'][::-1]
+        context['title'] = self.get_title()
         print(self.request.user)
         return context
 
@@ -72,6 +87,10 @@ class Menu(LoginRequiredMixin, ListView):
     context_object_name = 'menu_items'
     template_name = 'inventory/menu.html'
     login_url = '/login/'
+    title = 'Menu-Django Delights'
+
+    def get_title(self):
+        return self.title
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -83,6 +102,7 @@ class Menu(LoginRequiredMixin, ListView):
                 menu_item_name=item)
 
         context["recipe_reqs"] = recipe_requirements
+        context['title'] = self.get_title()
         return context
 
 
@@ -99,10 +119,19 @@ class NewMenuItem(LoginRequiredMixin, FormView):
     form_class = MenuItemForm
     success_url = '/menu/'
     login_url = '/login/'
+    title = 'New Menu Item-Django Delights'
+
+    def get_title(self):
+        return self.title
 
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.get_title()
+        return context
 
 
 class NewIngredient(LoginRequiredMixin, FormView):
@@ -110,10 +139,20 @@ class NewIngredient(LoginRequiredMixin, FormView):
     form_class = AddIngredientForm
     success_url = '/inventory/'
     login_url = '/login/'
+    title = 'New Ingredient-Django Delights'
+
+    def get_title(self):
+        return self.title
 
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.get_title()
+
+        return context
 
 
 class NewRecipeReq(LoginRequiredMixin, FormView):
@@ -121,10 +160,19 @@ class NewRecipeReq(LoginRequiredMixin, FormView):
     form_class = AddRecipeReq
     success_url = '/new_recipe_req/'
     login_url = '/login/'
+    title = 'New Recipe Req-Django Delights'
+
+    def get_title(self):
+        return self.title
 
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.get_title()
+        return context
 
 
 class NewOrder(LoginRequiredMixin, FormView):
@@ -132,6 +180,7 @@ class NewOrder(LoginRequiredMixin, FormView):
     form_class = AddNewOrder
     success_url = '/purchases/'
     login_url = '/login/'
+    title = 'New Order-Django Delights'
 
     def form_valid(self, form):
         '''check to see if the desired menu item has enough ingredients in inventory'''
@@ -175,11 +224,15 @@ class NewOrder(LoginRequiredMixin, FormView):
                     'menu_item_name', f'not enough {item} in inventory')
             return self.form_invalid(form)
 
+    def get_title(self):
+        return self.title
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         context["item_prices"] = list(MenuItem.objects.order_by(
             'id').values_list('menu_item_price', flat=True))
+        context['title'] = self.get_title()
 
         return context
 
