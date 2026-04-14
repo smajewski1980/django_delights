@@ -1,0 +1,43 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* * {
+  outline: 2px solid lime;
+} */
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  flex-wrap: wrap;
+}
+
+@media screen and (width < 650px) {
+  header {
+    justify-content: center;
+  }
+
+  img {
+    margin-block-end: 1rem;
+  }
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  gap: 1rem;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+#chef-rat {
+  max-width: 300px;
+}
