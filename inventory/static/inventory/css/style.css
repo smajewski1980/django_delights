@@ -6,31 +6,34 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: wheat;
+}
+
 /* * {
   outline: 2px solid lime;
 } */
 
 header {
   display: flex;
-  justify-content: space-between;
-  padding: 1rem;
+  justify-content: center;
+  padding: 2rem;
+  gap: 2rem;
   flex-wrap: wrap;
 }
 
-@media screen and (width < 650px) {
-  header {
-    justify-content: center;
-  }
-
-  img {
-    margin-block-end: 1rem;
-  }
+nav {
+  align-self: center;
 }
 
 ul {
   list-style-type: none;
   display: flex;
   gap: 1rem;
+
+  li {
+    font-size: 1.125rem;
+  }
 }
 
 img {
@@ -39,5 +42,13 @@ img {
 }
 
 #chef-rat {
-  max-width: 300px;
+  max-width: 250px;
+}
+
+main {
+  padding-inline: 2rem;
+}
+
+h1 {
+  margin-block-end: 1rem;
 }
